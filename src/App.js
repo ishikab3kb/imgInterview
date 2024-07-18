@@ -1,23 +1,27 @@
-import logo from './logo.svg';
+// import logo from './logo.svg';
 import './App.css';
+import ComContainer from './Comment';
+import { data } from './data';
+
+const RecursiveComponent = ({ text,date, comments }) => {
+  const hassubComments = comments && comments.length
+
+  return (
+    <div className='leftpadding'>
+      <ComContainer title={text} date={date}></ComContainer>
+      {hassubComments && comments.map((item) => (
+        <RecursiveComponent key={item.text} {...item} />
+      ))}
+    </div>
+  )
+}
+
 
 function App() {
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {data.map((item,index) => <RecursiveComponent key={index} {...item} />)}
     </div>
   );
 }
